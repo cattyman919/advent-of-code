@@ -60,23 +60,14 @@ pub fn run_part2<P: AsRef<Path>>(path: P) -> u32 {
     let (left_vec, right_vec) = parse_lines(utils::read_file(path));
     let mut map = HashMap::new();
 
-    for num in right_vec {
-        if map.contains_key(&num) {
-            let current_val = map.get(&num).unwrap();
-            map.insert(num, *current_val + 1);
-        } else {
-            map.insert(num, 1);
-        }
+    for num in right_vec.into_iter() {
+        *map.entry(num).or_insert(0) += 1;
     }
 
-    let mut sum: u32 = 0;
-
-    for num in left_vec {
-        if let Some(val) = map.get(&num) {
-            sum += num * val;
-        }
-    }
-    sum
+    left_vec
+        .iter()
+        .map(|val| val * map.get(val).unwrap_or(&0))
+        .sum()
 }
 
 #[cfg(test)]
