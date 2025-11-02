@@ -6,11 +6,7 @@ use std::{
 use crate::utils;
 
 pub fn distance(left: u32, right: u32) -> u32 {
-    if right >= left {
-        right - left
-    } else {
-        left - right
-    }
+    right.abs_diff(left)
 }
 
 pub fn parse_lines(input_lines: Vec<String>) -> (Vec<u32>, Vec<u32>) {
